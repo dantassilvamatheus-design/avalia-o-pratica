@@ -4,282 +4,295 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mundo dos Canários</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        :root {
+            --bg-color: #f4f6f8;
+            --card-bg: #ffffff;
+            --text-color: #1f2937;
+            --text-muted: #4b5563;
+            --primary-color: #d97706;
+            --primary-hover: #b45309;
+            --border-color: #e5e7eb;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #111827;
+            --card-bg: #1f2937;
+            --text-color: #f9fafb;
+            --text-muted: #9ca3af;
+            --primary-color: #f59e0b;
+            --primary-hover: #d97706;
+            --border-color: #374151;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.3s, color 0.3s;
+            min-height: 100vh;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background-color: var(--card-bg);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .header h1 {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        .intro {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .intro p {
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+        }
+
+        .card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .card-body {
+            padding: 1.25rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .card-body h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-body p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-bottom: 1.25rem;
+            flex-grow: 1;
+        }
+
+        .btn-card, .btn-theme, .btn-close {
+            cursor: pointer;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            padding: 0.65rem 1rem;
+            transition: background-color 0.2s;
+        }
+
+        .btn-card, .btn-close {
+            background-color: var(--primary-color);
+            color: #ffffff;
+        }
+
+        .btn-card:hover, .btn-close:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .btn-theme {
+            background-color: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-theme:hover {
+            background-color: var(--border-color);
+        }
+
+        /* Modal */
+        .modal {
+            margin: auto;
+            border: none;
+            border-radius: 12px;
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            padding: 1.5rem;
+            max-width: 420px;
+            width: 90%;
+            box-shadow: var(--shadow);
+        }
+
+        .modal::backdrop {
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(3px);
+        }
+
+        .modal-content {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+    </style>
 </head>
 <body>
 
     <header class="header">
         <h1>Mundo dos Canários</h1>
-        <button id="theme-toggle" class="btn-theme" aria-label="Alternar tema">
+        <button id="theme-toggle" class="btn-theme" aria-label="Alternar Tema">
             <span id="theme-icon">🌙</span> <span id="theme-text">Modo Escuro</span>
         </button>
     </header>
 
     <main class="container">
-        <article class="card">
-            <div class="card-img-wrapper">
-                <img src="https://images.unsplash.com/photo-1552728089-57bdde30beb3?auto=format&fit=crop&w=600&q=80" alt="Canário Belga Amarelo" loading="lazy">
-            </div>
-            <div class="card-content">
-                <h2>Canário Belga</h2>
-                <p>Conhecido por seu canto melodioso e cor amarela vibrante, é uma das aves domésticas mais populares do mundo.</p>
-                <button class="btn-primary" data-info="O Canário Belga adora cantar pela manhã! Eles se adaptam muito bem ao convívio humano.">Saiba Mais</button>
-            </div>
-        </article>
+        <section class="intro">
+            <h2>Galeria e Guia de Canários</h2>
+            <p>Explore as principais espécies e clique nos botões para conferir dicas e curiosidades sobre cada uma.</p>
+        </section>
 
-        <article class="card">
-            <div class="card-img-wrapper">
-                <img src="https://images.unsplash.com/photo-1618172193763-c511deb635ca?auto=format&fit=crop&w=600&q=80" alt="Canário em ramo de árvore" loading="lazy">
-            </div>
-            <div class="card-content">
-                <h2>Cuidados Básicos</h2>
-                <p>Mantenha a gaiola limpa, ofereça água fresca diariamente e forneça uma alimentação equilibrada com sementes e hortaliças.</p>
-                <button class="btn-primary" data-info="Alimentos como couve, espinafre e cenoura ralada fazem muito bem à saúde dos canários!">Ver Dicas</button>
-            </div>
-        </article>
+        <section class="gallery">
+            <article class="card">
+                <img src="https://images.unsplash.com/photo-1552728089-57bdde30beb3?auto=format&fit=crop&w=600&q=80" alt="Canário Belga Amarelo">
+                <div class="card-body">
+                    <h3>Canário Belga</h3>
+                    <p>Famoso pela cor amarela intensa e canto forte e melodioso.</p>
+                    <button class="btn-card" data-info="O Canário Belga Amarelo é uma das raças mais populares. Possui excelente aptidão para o canto e adapta-se muito bem ao convívio humano.">Ver Detalhes</button>
+                </div>
+            </article>
+
+            <article class="card">
+                <img src="https://images.unsplash.com/photo-1618172193763-c511deb635ca?auto=format&fit=crop&w=600&q=80" alt="Canário Silvestre">
+                <div class="card-body">
+                    <h3>Canário Silvestre</h3>
+                    <p>A variação original encontrada na natureza.</p>
+                    <button class="btn-card" data-info="Na natureza, suas penas possuem tons esverdeados e acinzentados para ajudar na camuflagem contra predadores em arbustos e árvores.">Ver Detalhes</button>
+                </div>
+            </article>
+
+            <article class="card">
+                <img src="https://images.unsplash.com/photo-1522858547137-f1dcec554f55?auto=format&fit=crop&w=600&q=80" alt="Canário Cobre">
+                <div class="card-body">
+                    <h3>Canário Cobre / Vermelho</h3>
+                    <p>Destaca-se pelos vibrantes tons alaranjados e avermelhados.</p>
+                    <button class="btn-card" data-info="A pigmentação vermelha pode ser intensificada através de uma alimentação rica em carotenoides (como cantaxantina) durante o período da muda de penas.">Ver Detalhes</button>
+                </div>
+            </article>
+
+            <article class="card">
+                <img src="https://images.unsplash.com/photo-1549608276-5786777e6587?auto=format&fit=crop&w=600&q=80" alt="Canário Cantando">
+                <div class="card-body">
+                    <h3>Cuidados & Canto</h3>
+                    <p>Aprenda como manter seu canário saudável e ativo.</p>
+                    <button class="btn-card" data-info="O canto atinge o ápice na primavera. Mantenha a gaiola higienizada, ofereça água fresca diariamente e forneça hortaliças como couve e espinafre.">Ver Detalhes</button>
+                </div>
+            </article>
+        </section>
     </main>
 
+    <!-- Modal Interativo -->
     <dialog id="info-modal" class="modal">
-        <div class="modal-body">
-            <h3>Informação</h3>
+        <div class="modal-content">
+            <h3 id="modal-title">Detalhes</h3>
             <p id="modal-text"></p>
-            <button id="modal-close" class="btn-primary">Fechar</button>
+            <button id="modal-close" class="btn-close">Fechar</button>
         </div>
     </dialog>
 
-    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeBtn = document.getElementById('theme-toggle');
+            const themeIcon = document.getElementById('theme-icon');
+            const themeText = document.getElementById('theme-text');
+            
+            const modal = document.getElementById('info-modal');
+            const modalTitle = document.getElementById('modal-title');
+            const modalText = document.getElementById('modal-text');
+            const modalCloseBtn = document.getElementById('modal-close');
+
+            // Gerenciamento de Tema
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                applyTheme('dark');
+            }
+
+            themeBtn.addEventListener('click', () => {
+                const isDark = document.body.getAttribute('data-theme') === 'dark';
+                applyTheme(isDark ? 'light' : 'dark');
+            });
+
+            function applyTheme(theme) {
+                if (theme === 'dark') {
+                    document.body.setAttribute('data-theme', 'dark');
+                    themeIcon.textContent = '☀️';
+                    themeText.textContent = 'Modo Claro';
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    document.body.removeAttribute('data-theme');
+                    themeIcon.textContent = '🌙';
+                    themeText.textContent = 'Modo Escuro';
+                    localStorage.setItem('theme', 'light');
+                }
+            }
+
+            // Ação dos Botões da Galeria
+            document.querySelectorAll('.btn-card').forEach(button => {
+                button.addEventListener('click', () => {
+                    const cardTitle = button.parentElement.querySelector('h3').textContent;
+                    const infoText = button.getAttribute('data-info');
+
+                    modalTitle.textContent = cardTitle;
+                    modalText.textContent = infoText;
+                    modal.showModal();
+                });
+            });
+
+            // Fechar Modal
+            modalCloseBtn.addEventListener('click', () => modal.close());
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) modal.close();
+            });
+        });
+    </script>
 </body>
 </html>
-:root {
-    --bg-color: #f8f9fa;
-    --card-bg: #ffffff;
-    --text-color: #212529;
-    --text-muted: #6c757d;
-    --accent-color: #d97706;
-    --accent-hover: #b45309;
-    --border-color: #e5e7eb;
-    --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-}
-
-[data-theme="dark"] {
-    --bg-color: #0f172a;
-    --card-bg: #1e293b;
-    --text-color: #f8fafc;
-    --text-muted: #94a3b8;
-    --accent-color: #f59e0b;
-    --accent-hover: #d97706;
-    --border-color: #334155;
-    --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
-}
-
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-body {
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    line-height: 1.6;
-    transition: background-color 0.3s ease, color 0.3s ease;
-    min-height: 100vh;
-}
-
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1.5rem 2rem;
-    background-color: var(--card-bg);
-    border-bottom: 1px solid var(--border-color);
-    position: sticky;
-    top: 0;
-    z-index: 10;
-}
-
-.header h1 {
-    font-size: 1.5rem;
-    color: var(--accent-color);
-}
-
-.container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 350px));
-    gap: 2rem;
-    justify-content: center;
-    padding: 3rem 1.5rem;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-.card {
-    background-color: var(--card-bg);
-    border-radius: 12px;
-    border: 1px solid var(--border-color);
-    overflow: hidden;
-    box-shadow: var(--shadow);
-    display: flex;
-    flex-direction: column;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.card:hover {
-    transform: translateY(-4px);
-}
-
-.card-img-wrapper {
-    width: 100%;
-    height: 200px;
-    overflow: hidden;
-}
-
-.card img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.3s ease;
-}
-
-.card:hover img {
-    transform: scale(1.05);
-}
-
-.card-content {
-    padding: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-}
-
-.card-content h2 {
-    margin-bottom: 0.5rem;
-    font-size: 1.25rem;
-}
-
-.card-content p {
-    color: var(--text-muted);
-    font-size: 0.95rem;
-    margin-bottom: 1.5rem;
-    flex-grow: 1;
-}
-
-.btn-primary, .btn-theme {
-    cursor: pointer;
-    border: none;
-    border-radius: 6px;
-    font-weight: 600;
-    transition: background-color 0.2s ease, opacity 0.2s ease;
-}
-
-.btn-primary {
-    background-color: var(--accent-color);
-    color: #ffffff;
-    padding: 0.75rem 1rem;
-    width: 100%;
-}
-
-.btn-primary:hover {
-    background-color: var(--accent-hover);
-}
-
-.btn-theme {
-    background-color: transparent;
-    color: var(--text-color);
-    border: 1px solid var(--border-color);
-    padding: 0.5rem 1rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.btn-theme:hover {
-    background-color: var(--border-color);
-}
-
-/* Estilização do Modal */
-.modal {
-    margin: auto;
-    border: none;
-    border-radius: 12px;
-    background-color: var(--card-bg);
-    color: var(--text-color);
-    padding: 2rem;
-    max-width: 400px;
-    box-shadow: var(--shadow);
-}
-
-.modal::backdrop {
-    background-color: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(3px);
-}
-
-.modal-body {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
-document.addEventListener('DOMContentLoaded', () => {
-    const themeToggleBtn = document.getElementById('theme-toggle');
-    const themeIcon = document.getElementById('theme-icon');
-    const themeText = document.getElementById('theme-text');
-    const modal = document.getElementById('info-modal');
-    const modalText = document.getElementById('modal-text');
-    const modalCloseBtn = document.getElementById('modal-close');
-
-    // 1. Gerenciamento do Tema Escuro/Claro
-    const savedTheme = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-    if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
-        setTheme('dark');
-    } else {
-        setTheme('light');
-    }
-
-    themeToggleBtn.addEventListener('click', () => {
-        const isDark = document.body.getAttribute('data-theme') === 'dark';
-        setTheme(isDark ? 'light' : 'dark');
-    });
-
-    function setTheme(theme) {
-        if (theme === 'dark') {
-            document.body.setAttribute('data-theme', 'dark');
-            themeIcon.textContent = '☀️';
-            themeText.textContent = 'Modo Claro';
-            localStorage.setItem('theme', 'dark');
-        } else {
-            document.body.removeAttribute('data-theme');
-            themeIcon.textContent = '🌙';
-            themeText.textContent = 'Modo Escuro';
-            localStorage.setItem('theme', 'light');
-        }
-    }
-
-    // 2. Interatividade com os cards (Modal nativo do HTML5)
-    document.querySelectorAll('.btn-primary[data-info]').forEach(button => {
-        button.addEventListener('click', () => {
-            const infoText = button.getAttribute('data-info');
-            modalText.textContent = infoText;
-            modal.showModal();
-        });
-    });
-
-    modalCloseBtn.addEventListener('click', () => {
-        modal.close();
-    });
-
-    // Fechar modal ao clicar fora dele
-    modal.addEventListener('click', (e) => {
-        const dialogBounds = modal.getBoundingClientRect();
-        if (
-            e.clientX < dialogBounds.left ||
-            e.clientX > dialogBounds.right ||
-            e.clientY < dialogBounds.top ||
-            e.clientY > dialogBounds.bottom
-        ) {
-            modal.close();
-        }
-    });
-});
